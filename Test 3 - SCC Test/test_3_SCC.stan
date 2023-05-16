@@ -30,7 +30,11 @@ model {
     
   
   // Priors
-  Z_d ~ gamma(20, 2); 
+  Z_d ~ gamma(20, 18); 
   //sigma_E_g ~ gamma(1, 1); 
+}
+
+generated quantities {
+  real Z_d_sq = pow(Z_d,2);
 }
 

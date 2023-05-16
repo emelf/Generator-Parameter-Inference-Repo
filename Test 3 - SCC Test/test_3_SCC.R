@@ -1,7 +1,7 @@
 library("rstan")
 library("writexl")
 #Simulate some data
-data = read.csv("Experiment 3/test_3_SCC_data.csv", header = TRUE, sep = ";", dec=".");
+data = read.csv("test_3_SCC_data.csv", header = TRUE, sep = ";", dec=".");
 I_f_meas = data$i_f_A; 
 I_ph1 = data$i_ph1_A; 
 I_ph2 = data$i_ph2_A; 
@@ -19,7 +19,7 @@ I_f <- c(I_f_meas, I_f_meas, I_f_meas)/I_f_base;
 N = length(I_a); 
 
 rstan_options(auto_write = T) 
-model = stan_model("Experiment 3/test_3_SCC.stan")
+model = stan_model("test_3_SCC.stan")
 options(mc.cores = 1)
 fit = sampling(model,list(N=N,I_f_meas=I_f, I_a_meas=I_a, sigma_I_a=I_a_std, sigma_I_f=I_f_std),
                iter=10000,chains=4, warmup=5000, control=list(adapt_delta=0.80));
@@ -31,5 +31,5 @@ library("shinystan")
 aFit <- as.shinystan(fit)
 launch_shinystan(aFit)
 
-posterior_samples <- data.frame(extract(fit,pars = c('Z_d','E_g')));
-write.csv(posterior_samples, "Experiment 3/test_3_result_data.csv", row.names=FALSE)
+posterior_samples <- data.frame(extract(fit,pars = c('Z_d','E_g','Z_d_sq')));
+write.csv(posterior_samples, "test_3_result_data.csv", row.names=FALSE)
