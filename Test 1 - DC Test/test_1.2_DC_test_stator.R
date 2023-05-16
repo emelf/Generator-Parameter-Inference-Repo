@@ -1,7 +1,7 @@
 library("rstan")
 library("writexl")
 #Simulate some data
-data = read.csv("DC_test_stator_data.csv", header = TRUE, sep = ";", dec=".");
+data = read.csv("DC_test_stator_data.csv", header = TRUE, sep = ",", dec=".");
 I_ph1 = data$i_ph1_A; 
 I_ph2 = data$i_ph2_A; 
 I_ph3 = data$i_ph3_A; 
@@ -40,5 +40,13 @@ library("shinystan")
 aFit <- as.shinystan(fit)
 launch_shinystan(aFit)
 
-posterior_samples <- data.frame(extract(fit,pars = c('R20','delta_t', 'R_DC')));
-write.csv(posterior_samples, "Experiment 1/test_1_stator_result_data.csv", row.names=FALSE)
+posterior_samples <- data.frame(extract(fit,pars = c('R20','delta_t', 'R_DC', 'R_20_sq')));
+write.csv(posterior_samples, "test_1_stator_result_data.csv", row.names=FALSE)
+
+V_pred = apply(posterior_samples,1,function(x){
+  rnorm(N,mean = x[1]*(1+alpha*x[2])*I_DC, sd = sigma_v)
+}
+)
+
+library(bayesplot)
+ppc_dens_overlay(y = V_DC,yrep = t(V_pred),n_dens = 20)

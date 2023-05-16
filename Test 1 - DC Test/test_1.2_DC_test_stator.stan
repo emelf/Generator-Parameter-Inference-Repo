@@ -28,3 +28,9 @@ model {
   R20 ~ uniform(0,1);
   delta_t ~ gamma(10,2);
 }
+
+generated quantities {
+  real R_20_sq = pow(R20,2);
+}
+
+
