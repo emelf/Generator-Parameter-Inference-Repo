@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: ""
+authors:
+- family-names: "Melfald"
+  given-names: "Emil"
+- family-names: "Tome-Robles"
+  given-names: "Dany"
+title: "Modern Experimental Design GitHub Repo for data"
+version: 0.0.1
+date-released: 2023-05-16
+url: "https://github.com/emelf/Generator-Parameter-Inference-Repo/tree/DataRepo-v1"
